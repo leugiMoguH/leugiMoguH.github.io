@@ -3,6 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b6e4f">
   <title>Hard Elo Rankings — Tennis Analytics</title>
   
   <meta name="description" content="Live surface-aware Hard Elo ratings for ATP players, computed from raw match data. Player form, head-to-head, and betting-market analysis.">
@@ -16,750 +17,832 @@
   <meta name="robots" content="index, follow, max-image-preview:large">
   <!-- AdSense: paste your script tag here once approved -->
   <style>
-    :root { color-scheme: light dark; }
-    body { font-family: system-ui, sans-serif; margin: 0; line-height: 1.45; }
-    header { background:#0b3d2e; color:#fff; padding:.7rem 1rem; }
-    header a { color:#cfe9dd; text-decoration:none; margin-right:1rem; font-weight:600; }
-    header .brand { color:#fff; font-weight:800; }
-    main { max-width: 980px; margin: 0 auto; padding: 1rem; }
-    table { border-collapse: collapse; width: 100%; margin:.5rem 0 1.5rem; }
-    th, td { text-align:left; padding:.4rem .6rem; border-bottom:1px solid #8883; }
-    th { background:#0b3d2e10; }
-    h1,h2 { margin:.6rem 0; }
-    .num { text-align:right; font-variant-numeric: tabular-nums; }
-    .muted { color:#6b7280; font-size:.9rem; }
-    .pill { background:#0b3d2e15; border-radius:999px; padding:.1rem .5rem; font-size:.85rem; }
-    a.row { text-decoration:none; }
-    footer { max-width:980px; margin:2rem auto; padding:1rem; border-top:1px solid #8883; }
+    :root{
+      --bg:#f6f7f9; --surface:#fff; --text:#10231c; --muted:#5b6b66;
+      --border:#e3e7e5; --accent:#0b6e4f; --accent2:#0f9d6e; --accent-soft:#0b6e4f14;
+      --gold:#caa23a; --radius:14px; --shadow:0 1px 3px #0000000f,0 8px 24px #0000000a;
+      --maxw:1080px;
+    }
+    @media (prefers-color-scheme:dark){
+      :root{--bg:#0d1411;--surface:#121b17;--text:#e8efea;--muted:#9bb0a8;
+            --border:#223029;--accent:#2bbe8c;--accent2:#2bbe8c;--accent-soft:#2bbe8c1f;}
+    }
+    *{box-sizing:border-box}
+    html{-webkit-text-size-adjust:100%}
+    body{margin:0;font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+         background:var(--bg);color:var(--text);line-height:1.5;font-size:15px}
+    a{color:var(--accent2);text-decoration:none}
+    a:hover{text-decoration:underline}
+    /* header / nav */
+    .top{position:sticky;top:0;z-index:20;background:var(--accent);color:#fff;box-shadow:var(--shadow)}
+    .nav{max-width:var(--maxw);margin:0 auto;display:flex;align-items:center;
+         gap:.25rem;padding:.55rem .9rem;flex-wrap:wrap}
+    .brand{color:#fff;font-weight:800;font-size:1.05rem;margin-right:auto;letter-spacing:.2px}
+    .brand:hover{text-decoration:none}
+    .links{display:flex;gap:.15rem;flex-wrap:wrap}
+    .links a{color:#eafff6;font-weight:600;padding:.35rem .6rem;border-radius:999px;font-size:.92rem}
+    .links a:hover{background:#ffffff22;text-decoration:none}
+    details.menu summary{list-style:none;cursor:pointer;color:#fff;font-weight:700;
+         padding:.3rem .55rem;border:1px solid #ffffff55;border-radius:10px}
+    details.menu summary::-webkit-details-marker{display:none}
+    @media (min-width:820px){ details.menu summary{display:none} .links{display:flex!important} }
+    @media (max-width:819px){
+      .nav{align-items:flex-start}
+      .links{display:none;width:100%;flex-direction:column;margin-top:.5rem}
+      details.menu[open] .links{display:flex}
+    }
+    /* layout */
+    main{max-width:var(--maxw);margin:1.1rem auto;padding:0 .9rem}
+    h1{font-size:1.5rem;margin:.2rem 0 .6rem;letter-spacing:-.01em}
+    h2{font-size:1.15rem;margin:1.4rem 0 .5rem}
+    .sub{color:var(--muted);margin:.2rem 0 1rem}
+    /* cards / pills */
+    .pill{display:inline-block;background:var(--accent-soft);color:var(--accent2);
+          border-radius:999px;padding:.12rem .55rem;font-size:.82rem;font-weight:700;margin:.1rem .2rem .1rem 0}
+    .cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:.6rem;margin:1rem 0}
+    .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);
+          padding:.8rem .9rem;box-shadow:var(--shadow)}
+    .card a{font-weight:700}
+    /* tables */
+    .table-wrap{overflow-x:auto;background:var(--surface);border:1px solid var(--border);
+                border-radius:var(--radius);box-shadow:var(--shadow);margin:.6rem 0 1.4rem}
+    table{border-collapse:collapse;width:100%;font-size:.92rem}
+    th,td{text-align:left;padding:.55rem .7rem;border-bottom:1px solid var(--border);white-space:nowrap}
+    thead th{position:sticky;top:0;background:var(--surface);color:var(--muted);
+             font-weight:700;font-size:.78rem;text-transform:uppercase;letter-spacing:.04em}
+    tbody tr:hover{background:var(--accent-soft)}
+    tbody tr:last-child td{border-bottom:0}
+    .num{text-align:right;font-variant-numeric:tabular-nums}
+    .muted{color:var(--muted)}
+    input[type=search],input:not([type]){width:100%;max-width:380px;padding:.6rem .8rem;
+          border:1px solid var(--border);border-radius:10px;background:var(--surface);
+          color:var(--text);font-size:1rem}
+    button{padding:.6rem 1rem;border:0;border-radius:10px;background:var(--accent);
+           color:#fff;font-size:1rem;font-weight:600;cursor:pointer}
+    footer{max-width:var(--maxw);margin:2rem auto 3rem;padding:1.2rem .9rem;
+           border-top:1px solid var(--border);color:var(--muted);font-size:.88rem}
   </style>
 </head>
 <body>
-  <header>
-    <a class="brand" href="/">🎾 Tennis Analytics</a>
-    <a href="/">Elo</a>
-    <a href="/rankings/atp/">ATP</a>
-    <a href="/goat/">GOAT</a>
-    <a href="/stats/">Stats</a>
-    <a href="/records/">Records</a>
-    <a href="/players/">Players</a>
-    <a href="/tournaments/">Tournaments</a>
-    <a href="/matches/">Matches</a>
-    <a href="/h2h/">H2H</a>
+  <header class="top">
+    <nav class="nav">
+      <a class="brand" href="/">🎾 Tennis Analytics</a>
+      <details class="menu">
+        <summary>Menu</summary>
+        <div class="links">
+          <a href="/">Elo</a>
+          <a href="/rankings/atp/">ATP</a>
+          <a href="/goat/">GOAT</a>
+          <a href="/stats/">Stats</a>
+          <a href="/records/">Records</a>
+          <a href="/players/">Players</a>
+          <a href="/tournaments/">Tournaments</a>
+          <a href="/matches/">Matches</a>
+          <a href="/h2h/">H2H</a>
+        </div>
+      </details>
+    </nav>
   </header>
   <main>
-<h1>Elo Rankings <span class="pill">Hard</span></h1>
+<h1>Elo Rankings</h1>
+<p class="sub">Surface-aware ATP ratings + market analysis, computed from raw match data.</p>
+
+<div>
+  <a class="pill" href="/">Overall</a>
+  <a class="pill" href="/rankings/hard/" style="background:var(--accent);color:#fff">Hard</a>
+  <a class="pill" href="/rankings/clay/">Clay</a>
+  <a class="pill" href="/rankings/grass/">Grass</a>
+</div>
+
 <table>
-  <thead><tr><th>#</th><th>Player</th><th class="num">Elo</th><th>As of</th></tr></thead>
+  <thead><tr><th>#</th><th>Player</th><th class="num">Elo</th><th class="muted">As of</th></tr></thead>
   <tbody>
   
     <tr>
       <td class="num">1</td>
-      <td><a class="row" href="/player/sinner-j/">Jannik Sinner</a></td>
+      <td><a href="/player/sinner-j/">Jannik Sinner</a></td>
       <td class="num">2320.3</td>
       <td class="muted">2026-03-18 00:00:00</td>
     </tr>
   
     <tr>
       <td class="num">2</td>
-      <td><a class="row" href="/player/alcaraz-c/">Carlos Alcaraz</a></td>
+      <td><a href="/player/alcaraz-c/">Carlos Alcaraz</a></td>
       <td class="num">2197.6</td>
       <td class="muted">2026-03-18 00:00:00</td>
     </tr>
   
     <tr>
       <td class="num">3</td>
-      <td><a class="row" href="/player/djokovic-n/">Novak Djokovic</a></td>
+      <td><a href="/player/djokovic-n/">Novak Djokovic</a></td>
       <td class="num">2166.4</td>
       <td class="muted">2026-03-04 00:00:00</td>
     </tr>
   
     <tr>
       <td class="num">4</td>
-      <td><a class="row" href="/player/zverev-a/">Alexander Zverev</a></td>
+      <td><a href="/player/zverev-a/">Alexander Zverev</a></td>
       <td class="num">2046.3</td>
       <td class="muted">2026-03-18 00:00:00</td>
     </tr>
   
     <tr>
       <td class="num">5</td>
-      <td><a class="row" href="/player/medvedev-d/">Daniil Medvedev</a></td>
+      <td><a href="/player/medvedev-d/">Daniil Medvedev</a></td>
       <td class="num">2002.9</td>
       <td class="muted">2026-03-18 00:00:00</td>
     </tr>
   
     <tr>
       <td class="num">6</td>
-      <td><a class="row" href="/player/draper-j/">Jack Draper</a></td>
+      <td><a href="/player/draper-j/">Jack Draper</a></td>
       <td class="num">1975.4</td>
       <td class="muted">2026-03-18 00:00:00</td>
     </tr>
   
     <tr>
       <td class="num">7</td>
-      <td><a class="row" href="/player/deminaur-a/">Alex De Minaur</a></td>
+      <td><a href="/player/deminaur-a/">Alex De Minaur</a></td>
       <td class="num">1968.1</td>
       <td class="muted">2026-03-18 00:00:00</td>
     </tr>
   
     <tr>
       <td class="num">8</td>
-      <td><a class="row" href="/player/augeraliassime-f/">Felix Auger Aliassime</a></td>
+      <td><a href="/player/augeraliassime-f/">Felix Auger Aliassime</a></td>
       <td class="num">1957.5</td>
       <td class="muted">2026-03-18 00:00:00</td>
     </tr>
   
     <tr>
       <td class="num">9</td>
-      <td><a class="row" href="/player/fils-a/">Arthur Fils</a></td>
+      <td><a href="/player/fils-a/">Arthur Fils</a></td>
       <td class="num">1950.4</td>
       <td class="muted">2026-03-18 00:00:00</td>
     </tr>
   
     <tr>
       <td class="num">10</td>
-      <td><a class="row" href="/player/fonseca-j/">Joao Fonseca</a></td>
+      <td><a href="/player/fonseca-j/">Joao Fonseca</a></td>
       <td class="num">1941.9</td>
       <td class="muted">2026-03-18 00:00:00</td>
     </tr>
   
     <tr>
       <td class="num">11</td>
-      <td><a class="row" href="/player/shelton-b/">Ben Shelton</a></td>
+      <td><a href="/player/shelton-b/">Ben Shelton</a></td>
       <td class="num">1939.4</td>
       <td class="muted">2026-03-18 00:00:00</td>
     </tr>
   
     <tr>
       <td class="num">12</td>
-      <td><a class="row" href="/player/tien-l/">Learner Tien</a></td>
+      <td><a href="/player/tien-l/">Learner Tien</a></td>
       <td class="num">1915.5</td>
       <td class="muted">2026-03-18 00:00:00</td>
     </tr>
   
     <tr>
       <td class="num">13</td>
-      <td><a class="row" href="/player/fritz-t/">Taylor Fritz</a></td>
+      <td><a href="/player/fritz-t/">Taylor Fritz</a></td>
       <td class="num">1912.0</td>
       <td class="muted">2026-03-18 00:00:00</td>
     </tr>
   
     <tr>
       <td class="num">14</td>
-      <td><a class="row" href="/player/musetti-l/">Lorenzo Musetti</a></td>
+      <td><a href="/player/musetti-l/">Lorenzo Musetti</a></td>
       <td class="num">1896.3</td>
       <td class="muted">2026-03-04 00:00:00</td>
     </tr>
   
     <tr>
       <td class="num">15</td>
-      <td><a class="row" href="/player/paul-t/">Tommy Paul</a></td>
+      <td><a href="/player/paul-t/">Tommy Paul</a></td>
       <td class="num">1893.5</td>
       <td class="muted">2026-03-18 00:00:00</td>
     </tr>
   
     <tr>
       <td class="num">16</td>
-      <td><a class="row" href="/player/rune-h/">Holger Rune</a></td>
+      <td><a href="/player/rune-h/">Holger Rune</a></td>
       <td class="num">1891.5</td>
       <td class="muted">2025-10-13 00:00:00</td>
     </tr>
   
     <tr>
       <td class="num">17</td>
-      <td><a class="row" href="/player/mensik-j/">Jakub Mensik</a></td>
+      <td><a href="/player/mensik-j/">Jakub Mensik</a></td>
       <td class="num">1887.6</td>
       <td class="muted">2026-03-18 00:00:00</td>
     </tr>
   
     <tr>
       <td class="num">18</td>
-      <td><a class="row" href="/player/lehecka-j/">Jiri Lehecka</a></td>
+      <td><a href="/player/lehecka-j/">Jiri Lehecka</a></td>
       <td class="num">1886.9</td>
       <td class="muted">2026-03-18 00:00:00</td>
     </tr>
   
     <tr>
       <td class="num">19</td>
-      <td><a class="row" href="/player/vacherot-v/">Valentin Vacherot</a></td>
+      <td><a href="/player/vacherot-v/">Valentin Vacherot</a></td>
       <td class="num">1885.0</td>
       <td class="muted">2026-03-18 00:00:00</td>
     </tr>
   
     <tr>
       <td class="num">20</td>
-      <td><a class="row" href="/player/cerundolo-f/">Francisco Cerundolo</a></td>
+      <td><a href="/player/cerundolo-f/">Francisco Cerundolo</a></td>
       <td class="num">1882.1</td>
       <td class="muted">2026-03-18 00:00:00</td>
     </tr>
   
     <tr>
       <td class="num">21</td>
-      <td><a class="row" href="/player/dimitrov-g/">Grigor Dimitrov</a></td>
+      <td><a href="/player/dimitrov-g/">Grigor Dimitrov</a></td>
       <td class="num">1871.3</td>
       <td class="muted">2026-03-18 00:00:00</td>
     </tr>
   
     <tr>
       <td class="num">22</td>
-      <td><a class="row" href="/player/korda-s/">Sebastian Korda</a></td>
+      <td><a href="/player/korda-s/">Sebastian Korda</a></td>
       <td class="num">1859.5</td>
       <td class="muted">2026-03-18 00:00:00</td>
     </tr>
   
     <tr>
       <td class="num">23</td>
-      <td><a class="row" href="/player/humbert-u/">Ugo Humbert</a></td>
+      <td><a href="/player/humbert-u/">Ugo Humbert</a></td>
       <td class="num">1857.4</td>
       <td class="muted">2026-03-18 00:00:00</td>
     </tr>
   
     <tr>
       <td class="num">24</td>
-      <td><a class="row" href="/player/kyrgios-n/">Nick Kyrgios</a></td>
+      <td><a href="/player/kyrgios-n/">Nick Kyrgios</a></td>
       <td class="num">1853.0</td>
       <td class="muted">2026-01-04 00:00:00</td>
     </tr>
   
     <tr>
       <td class="num">25</td>
-      <td><a class="row" href="/player/berrettini-m/">Matteo Berrettini</a></td>
+      <td><a href="/player/berrettini-m/">Matteo Berrettini</a></td>
       <td class="num">1852.5</td>
       <td class="muted">2026-03-18 00:00:00</td>
     </tr>
   
     <tr>
       <td class="num">26</td>
-      <td><a class="row" href="/player/tiafoe-f/">Frances Tiafoe</a></td>
+      <td><a href="/player/tiafoe-f/">Frances Tiafoe</a></td>
       <td class="num">1846.9</td>
       <td class="muted">2026-03-18 00:00:00</td>
     </tr>
   
     <tr>
       <td class="num">27</td>
-      <td><a class="row" href="/player/michelsen-a/">Alex Michelsen</a></td>
+      <td><a href="/player/michelsen-a/">Alex Michelsen</a></td>
       <td class="num">1833.9</td>
       <td class="muted">2026-03-18 00:00:00</td>
     </tr>
   
     <tr>
       <td class="num">28</td>
-      <td><a class="row" href="/player/bublik-a/">Alexander Bublik</a></td>
+      <td><a href="/player/bublik-a/">Alexander Bublik</a></td>
       <td class="num">1827.9</td>
       <td class="muted">2026-03-18 00:00:00</td>
     </tr>
   
     <tr>
       <td class="num">29</td>
-      <td><a class="row" href="/player/rublev-a/">Andrey Rublev</a></td>
+      <td><a href="/player/rublev-a/">Andrey Rublev</a></td>
       <td class="num">1825.4</td>
       <td class="muted">2026-03-18 00:00:00</td>
     </tr>
   
     <tr>
       <td class="num">30</td>
-      <td><a class="row" href="/player/davidovichfokina-a/">Alejandro Davidovich Fokina</a></td>
+      <td><a href="/player/davidovichfokina-a/">Alejandro Davidovich Fokina</a></td>
       <td class="num">1823.7</td>
       <td class="muted">2026-03-18 00:00:00</td>
     </tr>
   
     <tr>
       <td class="num">31</td>
-      <td><a class="row" href="/player/machac-t/">Tomas Machac</a></td>
+      <td><a href="/player/machac-t/">Tomas Machac</a></td>
       <td class="num">1821.5</td>
       <td class="muted">2026-03-18 00:00:00</td>
     </tr>
   
     <tr>
       <td class="num">32</td>
-      <td><a class="row" href="/player/ruud-c/">Casper Ruud</a></td>
+      <td><a href="/player/ruud-c/">Casper Ruud</a></td>
       <td class="num">1817.7</td>
       <td class="muted">2026-03-18 00:00:00</td>
     </tr>
   
     <tr>
       <td class="num">33</td>
-      <td><a class="row" href="/player/tsitsipas-s/">Stefanos Tsitsipas</a></td>
+      <td><a href="/player/tsitsipas-s/">Stefanos Tsitsipas</a></td>
       <td class="num">1809.2</td>
       <td class="muted">2026-03-18 00:00:00</td>
     </tr>
   
     <tr>
       <td class="num">34</td>
-      <td><a class="row" href="/player/shapovalov-d/">Denis Shapovalov</a></td>
+      <td><a href="/player/shapovalov-d/">Denis Shapovalov</a></td>
       <td class="num">1805.5</td>
       <td class="muted">2026-03-18 00:00:00</td>
     </tr>
   
     <tr>
       <td class="num">35</td>
-      <td><a class="row" href="/player/nishikori-k/">Kei Nishikori</a></td>
+      <td><a href="/player/nishikori-k/">Kei Nishikori</a></td>
       <td class="num">1800.5</td>
       <td class="muted">2025-08-07 00:00:00</td>
     </tr>
   
     <tr>
       <td class="num">36</td>
-      <td><a class="row" href="/player/kokkinakis-t/">Thanasi Kokkinakis</a></td>
+      <td><a href="/player/kokkinakis-t/">Thanasi Kokkinakis</a></td>
       <td class="num">1795.1</td>
       <td class="muted">2026-01-12 00:00:00</td>
     </tr>
   
     <tr>
       <td class="num">37</td>
-      <td><a class="row" href="/player/norrie-c/">Cameron Norrie</a></td>
+      <td><a href="/player/norrie-c/">Cameron Norrie</a></td>
       <td class="num">1794.9</td>
       <td class="muted">2026-03-18 00:00:00</td>
     </tr>
   
     <tr>
       <td class="num">38</td>
-      <td><a class="row" href="/player/monfils-g/">Gael Monfils</a></td>
+      <td><a href="/player/monfils-g/">Gael Monfils</a></td>
       <td class="num">1791.4</td>
       <td class="muted">2026-03-04 00:00:00</td>
     </tr>
   
     <tr>
       <td class="num">39</td>
-      <td><a class="row" href="/player/griekspoor-t/">Tallon Griekspoor</a></td>
+      <td><a href="/player/griekspoor-t/">Tallon Griekspoor</a></td>
       <td class="num">1789.8</td>
       <td class="muted">2026-02-23 00:00:00</td>
     </tr>
   
     <tr>
       <td class="num">40</td>
-      <td><a class="row" href="/player/collignon-r/">Raphael Collignon</a></td>
+      <td><a href="/player/collignon-r/">Raphael Collignon</a></td>
       <td class="num">1789.4</td>
       <td class="muted">2026-03-18 00:00:00</td>
     </tr>
   
     <tr>
       <td class="num">41</td>
-      <td><a class="row" href="/player/hurkacz-h/">Hubert Hurkacz</a></td>
+      <td><a href="/player/hurkacz-h/">Hubert Hurkacz</a></td>
       <td class="num">1787.4</td>
       <td class="muted">2026-03-18 00:00:00</td>
     </tr>
   
     <tr>
       <td class="num">42</td>
-      <td><a class="row" href="/player/rinderknech-a/">Arthur Rinderknech</a></td>
+      <td><a href="/player/rinderknech-a/">Arthur Rinderknech</a></td>
       <td class="num">1785.8</td>
       <td class="muted">2026-03-18 00:00:00</td>
     </tr>
   
     <tr>
       <td class="num">43</td>
-      <td><a class="row" href="/player/khachanov-k/">Karen Khachanov</a></td>
+      <td><a href="/player/khachanov-k/">Karen Khachanov</a></td>
       <td class="num">1784.2</td>
       <td class="muted">2026-03-18 00:00:00</td>
     </tr>
   
     <tr>
       <td class="num">44</td>
-      <td><a class="row" href="/player/munar-j/">Jaume Munar</a></td>
+      <td><a href="/player/munar-j/">Jaume Munar</a></td>
       <td class="num">1766.0</td>
       <td class="muted">2026-02-09 00:00:00</td>
     </tr>
   
     <tr>
       <td class="num">45</td>
-      <td><a class="row" href="/player/cilic-m/">Marin Cilic</a></td>
+      <td><a href="/player/cilic-m/">Marin Cilic</a></td>
       <td class="num">1764.0</td>
       <td class="muted">2026-03-18 00:00:00</td>
     </tr>
   
     <tr>
       <td class="num">46</td>
-      <td><a class="row" href="/player/spizzirri-e/">Eliot Spizzirri</a></td>
+      <td><a href="/player/spizzirri-e/">Eliot Spizzirri</a></td>
       <td class="num">1759.9</td>
       <td class="muted">2026-02-09 00:00:00</td>
     </tr>
   
     <tr>
       <td class="num">47</td>
-      <td><a class="row" href="/player/nakashima-b/">Brandon Nakashima</a></td>
+      <td><a href="/player/nakashima-b/">Brandon Nakashima</a></td>
       <td class="num">1759.5</td>
       <td class="muted">2026-03-18 00:00:00</td>
     </tr>
   
     <tr>
       <td class="num">48</td>
-      <td><a class="row" href="/player/cobolli-f/">Flavio Cobolli</a></td>
+      <td><a href="/player/cobolli-f/">Flavio Cobolli</a></td>
       <td class="num">1759.4</td>
       <td class="muted">2026-03-18 00:00:00</td>
     </tr>
   
     <tr>
       <td class="num">49</td>
-      <td><a class="row" href="/player/mmoh-m/">Michael Mmoh</a></td>
+      <td><a href="/player/mmoh-m/">Michael Mmoh</a></td>
       <td class="num">1756.9</td>
       <td class="muted">2026-01-05 00:00:00</td>
     </tr>
   
     <tr>
       <td class="num">50</td>
-      <td><a class="row" href="/player/bergs-z/">Zizou Bergs</a></td>
+      <td><a href="/player/bergs-z/">Zizou Bergs</a></td>
       <td class="num">1755.9</td>
       <td class="muted">2026-03-18 00:00:00</td>
     </tr>
   
     <tr>
       <td class="num">51</td>
-      <td><a class="row" href="/player/ruusuvuori-e/">Emil Ruusuvuori</a></td>
+      <td><a href="/player/ruusuvuori-e/">Emil Ruusuvuori</a></td>
       <td class="num">1748.0</td>
       <td class="muted">2025-10-13 00:00:00</td>
     </tr>
   
     <tr>
       <td class="num">52</td>
-      <td><a class="row" href="/player/thompson-j/">Jordan Thompson</a></td>
+      <td><a href="/player/thompson-j/">Jordan Thompson</a></td>
       <td class="num">1746.1</td>
       <td class="muted">2026-01-19 00:00:00</td>
     </tr>
   
     <tr>
       <td class="num">53</td>
-      <td><a class="row" href="/player/opelka-r/">Reilly Opelka</a></td>
+      <td><a href="/player/opelka-r/">Reilly Opelka</a></td>
       <td class="num">1745.5</td>
       <td class="muted">2026-03-18 00:00:00</td>
     </tr>
   
     <tr>
       <td class="num">54</td>
-      <td><a class="row" href="/player/hanfmann-y/">Yannick Hanfmann</a></td>
+      <td><a href="/player/hanfmann-y/">Yannick Hanfmann</a></td>
       <td class="num">1745.0</td>
       <td class="muted">2026-03-18 00:00:00</td>
     </tr>
   
     <tr>
       <td class="num">55</td>
-      <td><a class="row" href="/player/martinetcheverry-t/">Tomas Martin Etcheverry</a></td>
+      <td><a href="/player/martinetcheverry-t/">Tomas Martin Etcheverry</a></td>
       <td class="num">1744.3</td>
       <td class="muted">2026-03-18 00:00:00</td>
     </tr>
   
     <tr>
       <td class="num">56</td>
-      <td><a class="row" href="/player/wu-y/">Yibing Wu</a></td>
+      <td><a href="/player/wu-y/">Yibing Wu</a></td>
       <td class="num">1743.6</td>
       <td class="muted">2026-03-18 00:00:00</td>
     </tr>
   
     <tr>
       <td class="num">57</td>
-      <td><a class="row" href="/player/moutet-c/">Corentin Moutet</a></td>
+      <td><a href="/player/moutet-c/">Corentin Moutet</a></td>
       <td class="num">1743.3</td>
       <td class="muted">2026-03-18 00:00:00</td>
     </tr>
   
     <tr>
       <td class="num">58</td>
-      <td><a class="row" href="/player/marozsan-f/">Fabian Marozsan</a></td>
+      <td><a href="/player/marozsan-f/">Fabian Marozsan</a></td>
       <td class="num">1739.6</td>
       <td class="muted">2026-03-18 00:00:00</td>
     </tr>
   
     <tr>
       <td class="num">59</td>
-      <td><a class="row" href="/player/vandezandschulp-b/">Botic Van De Zandschulp</a></td>
+      <td><a href="/player/vandezandschulp-b/">Botic Van De Zandschulp</a></td>
       <td class="num">1735.4</td>
       <td class="muted">2026-03-18 00:00:00</td>
     </tr>
   
     <tr>
       <td class="num">60</td>
-      <td><a class="row" href="/player/brooksby-j/">Jenson Brooksby</a></td>
+      <td><a href="/player/brooksby-j/">Jenson Brooksby</a></td>
       <td class="num">1726.5</td>
       <td class="muted">2026-03-18 00:00:00</td>
     </tr>
   
     <tr>
       <td class="num">61</td>
-      <td><a class="row" href="/player/sonego-l/">Lorenzo Sonego</a></td>
+      <td><a href="/player/sonego-l/">Lorenzo Sonego</a></td>
       <td class="num">1726.3</td>
       <td class="muted">2026-01-19 00:00:00</td>
     </tr>
   
     <tr>
       <td class="num">62</td>
-      <td><a class="row" href="/player/majchrzak-k/">Kamil Majchrzak</a></td>
+      <td><a href="/player/majchrzak-k/">Kamil Majchrzak</a></td>
       <td class="num">1726.2</td>
       <td class="muted">2026-03-18 00:00:00</td>
     </tr>
   
     <tr>
       <td class="num">63</td>
-      <td><a class="row" href="/player/watanuki-y/">Yosuke Watanuki</a></td>
+      <td><a href="/player/watanuki-y/">Yosuke Watanuki</a></td>
       <td class="num">1719.2</td>
       <td class="muted">2026-02-06 00:00:00</td>
     </tr>
   
     <tr>
       <td class="num">64</td>
-      <td><a class="row" href="/player/shevchenko-a/">Alexander Shevchenko</a></td>
+      <td><a href="/player/shevchenko-a/">Alexander Shevchenko</a></td>
       <td class="num">1718.2</td>
       <td class="muted">2026-03-18 00:00:00</td>
     </tr>
   
     <tr>
       <td class="num">65</td>
-      <td><a class="row" href="/player/carrenobusta-p/">Pablo Carreno Busta</a></td>
+      <td><a href="/player/carrenobusta-p/">Pablo Carreno Busta</a></td>
       <td class="num">1715.6</td>
       <td class="muted">2026-02-23 00:00:00</td>
     </tr>
   
     <tr>
       <td class="num">66</td>
-      <td><a class="row" href="/player/mannarino-a/">Adrian Mannarino</a></td>
+      <td><a href="/player/mannarino-a/">Adrian Mannarino</a></td>
       <td class="num">1713.4</td>
       <td class="muted">2026-03-18 00:00:00</td>
     </tr>
   
     <tr>
       <td class="num">67</td>
-      <td><a class="row" href="/player/medjedovic-h/">Hamad Medjedovic</a></td>
+      <td><a href="/player/medjedovic-h/">Hamad Medjedovic</a></td>
       <td class="num">1712.1</td>
       <td class="muted">2026-02-09 00:00:00</td>
     </tr>
   
     <tr>
       <td class="num">68</td>
-      <td><a class="row" href="/player/molcan-a/">Alex Molcan</a></td>
+      <td><a href="/player/molcan-a/">Alex Molcan</a></td>
       <td class="num">1710.5</td>
       <td class="muted">2026-02-07 00:00:00</td>
     </tr>
   
     <tr>
       <td class="num">69</td>
-      <td><a class="row" href="/player/bonzi-b/">Benjamin Bonzi</a></td>
+      <td><a href="/player/bonzi-b/">Benjamin Bonzi</a></td>
       <td class="num">1709.5</td>
       <td class="muted">2026-03-04 00:00:00</td>
     </tr>
   
     <tr>
       <td class="num">70</td>
-      <td><a class="row" href="/player/wong-c/">Coleman Wong</a></td>
+      <td><a href="/player/wong-c/">Coleman Wong</a></td>
       <td class="num">1707.8</td>
       <td class="muted">2026-02-23 00:00:00</td>
     </tr>
   
     <tr>
       <td class="num">71</td>
-      <td><a class="row" href="/player/fucsovics-m/">Marton Fucsovics</a></td>
+      <td><a href="/player/fucsovics-m/">Marton Fucsovics</a></td>
       <td class="num">1705.3</td>
       <td class="muted">2026-03-18 00:00:00</td>
     </tr>
   
     <tr>
       <td class="num">72</td>
-      <td><a class="row" href="/player/arevalo-m/">Marcelo Arevalo</a></td>
+      <td><a href="/player/arevalo-m/">Marcelo Arevalo</a></td>
       <td class="num">1705.0</td>
       <td class="muted">2025-09-13 00:00:00</td>
     </tr>
   
     <tr>
       <td class="num">73</td>
-      <td><a class="row" href="/player/safiullin-r/">Roman Safiullin</a></td>
+      <td><a href="/player/safiullin-r/">Roman Safiullin</a></td>
       <td class="num">1701.8</td>
       <td class="muted">2025-08-25 00:00:00</td>
     </tr>
   
     <tr>
       <td class="num">74</td>
-      <td><a class="row" href="/player/chung-h/">Hyeon Chung</a></td>
+      <td><a href="/player/chung-h/">Hyeon Chung</a></td>
       <td class="num">1697.6</td>
       <td class="muted">2026-02-07 00:00:00</td>
     </tr>
   
     <tr>
       <td class="num">75</td>
-      <td><a class="row" href="/player/atmane-t/">Terence Atmane</a></td>
+      <td><a href="/player/atmane-t/">Terence Atmane</a></td>
       <td class="num">1695.3</td>
       <td class="muted">2026-03-18 00:00:00</td>
     </tr>
   
     <tr>
       <td class="num">76</td>
-      <td><a class="row" href="/player/tabilo-a/">Alejandro Tabilo</a></td>
+      <td><a href="/player/tabilo-a/">Alejandro Tabilo</a></td>
       <td class="num">1693.5</td>
       <td class="muted">2026-03-18 00:00:00</td>
     </tr>
   
     <tr>
       <td class="num">77</td>
-      <td><a class="row" href="/player/kecmanovic-m/">Miomir Kecmanovic</a></td>
+      <td><a href="/player/kecmanovic-m/">Miomir Kecmanovic</a></td>
       <td class="num">1693.0</td>
       <td class="muted">2026-03-18 00:00:00</td>
     </tr>
   
     <tr>
       <td class="num">78</td>
-      <td><a class="row" href="/player/wawrinka-s/">Stan Wawrinka</a></td>
+      <td><a href="/player/wawrinka-s/">Stan Wawrinka</a></td>
       <td class="num">1692.9</td>
       <td class="muted">2026-02-23 00:00:00</td>
     </tr>
   
     <tr>
       <td class="num">79</td>
-      <td><a class="row" href="/player/baez-s/">Sebastian Baez</a></td>
+      <td><a href="/player/baez-s/">Sebastian Baez</a></td>
       <td class="num">1689.6</td>
       <td class="muted">2026-03-18 00:00:00</td>
     </tr>
   
     <tr>
       <td class="num">80</td>
-      <td><a class="row" href="/player/diallo-g/">Gabriel Diallo</a></td>
+      <td><a href="/player/diallo-g/">Gabriel Diallo</a></td>
       <td class="num">1688.8</td>
       <td class="muted">2026-03-18 00:00:00</td>
     </tr>
   
     <tr>
       <td class="num">81</td>
-      <td><a class="row" href="/player/hijikata-r/">Rinky Hijikata</a></td>
+      <td><a href="/player/hijikata-r/">Rinky Hijikata</a></td>
       <td class="num">1685.4</td>
       <td class="muted">2026-03-04 00:00:00</td>
     </tr>
   
     <tr>
       <td class="num">82</td>
-      <td><a class="row" href="/player/borges-n/">Nuno Borges</a></td>
+      <td><a href="/player/borges-n/">Nuno Borges</a></td>
       <td class="num">1680.9</td>
       <td class="muted">2026-03-18 00:00:00</td>
     </tr>
   
     <tr>
       <td class="num">83</td>
-      <td><a class="row" href="/player/giron-m/">Marcos Giron</a></td>
+      <td><a href="/player/giron-m/">Marcos Giron</a></td>
       <td class="num">1679.3</td>
       <td class="muted">2026-03-18 00:00:00</td>
     </tr>
   
     <tr>
       <td class="num">84</td>
-      <td><a class="row" href="/player/rodionov-j/">Jurij Rodionov</a></td>
+      <td><a href="/player/rodionov-j/">Jurij Rodionov</a></td>
       <td class="num">1673.8</td>
       <td class="muted">2026-02-06 00:00:00</td>
     </tr>
   
     <tr>
       <td class="num">85</td>
-      <td><a class="row" href="/player/wookwon-s/">Soon Woo Kwon</a></td>
+      <td><a href="/player/wookwon-s/">Soon Woo Kwon</a></td>
       <td class="num">1670.4</td>
       <td class="muted">2026-02-07 00:00:00</td>
     </tr>
   
     <tr>
       <td class="num">86</td>
-      <td><a class="row" href="/player/bautistaagut-r/">Roberto Bautista Agut</a></td>
+      <td><a href="/player/bautistaagut-r/">Roberto Bautista Agut</a></td>
       <td class="num">1670.1</td>
       <td class="muted">2026-03-18 00:00:00</td>
     </tr>
   
     <tr>
       <td class="num">87</td>
-      <td><a class="row" href="/player/evans-d/">Daniel Evans</a></td>
+      <td><a href="/player/evans-d/">Daniel Evans</a></td>
       <td class="num">1669.8</td>
       <td class="muted">2025-07-21 00:00:00</td>
     </tr>
   
     <tr>
       <td class="num">88</td>
-      <td><a class="row" href="/player/king-d/">Darian King</a></td>
+      <td><a href="/player/king-d/">Darian King</a></td>
       <td class="num">1669.4</td>
       <td class="muted">2026-02-07 00:00:00</td>
     </tr>
   
     <tr>
       <td class="num">89</td>
-      <td><a class="row" href="/player/pospisil-v/">Vasek Pospisil</a></td>
+      <td><a href="/player/pospisil-v/">Vasek Pospisil</a></td>
       <td class="num">1667.7</td>
       <td class="muted">2025-07-27 00:00:00</td>
     </tr>
   
     <tr>
       <td class="num">90</td>
-      <td><a class="row" href="/player/halys-q/">Quentin Halys</a></td>
+      <td><a href="/player/halys-q/">Quentin Halys</a></td>
       <td class="num">1663.7</td>
       <td class="muted">2026-03-18 00:00:00</td>
     </tr>
   
     <tr>
       <td class="num">91</td>
-      <td><a class="row" href="/player/popyrin-a/">Alexei Popyrin</a></td>
+      <td><a href="/player/popyrin-a/">Alexei Popyrin</a></td>
       <td class="num">1663.7</td>
       <td class="muted">2026-03-18 00:00:00</td>
     </tr>
   
     <tr>
       <td class="num">92</td>
-      <td><a class="row" href="/player/ymer-m/">Mikael Ymer</a></td>
+      <td><a href="/player/ymer-m/">Mikael Ymer</a></td>
       <td class="num">1660.2</td>
       <td class="muted">2025-10-13 00:00:00</td>
     </tr>
   
     <tr>
       <td class="num">93</td>
-      <td><a class="row" href="/player/shang-j/">Juncheng Shang</a></td>
+      <td><a href="/player/shang-j/">Juncheng Shang</a></td>
       <td class="num">1659.9</td>
       <td class="muted">2026-02-23 00:00:00</td>
     </tr>
   
     <tr>
       <td class="num">94</td>
-      <td><a class="row" href="/player/jodar-r/">Rafael Jodar</a></td>
+      <td><a href="/player/jodar-r/">Rafael Jodar</a></td>
       <td class="num">1658.2</td>
       <td class="muted">2026-03-18 00:00:00</td>
     </tr>
   
     <tr>
       <td class="num">95</td>
-      <td><a class="row" href="/player/svrcina-d/">Dalibor Svrcina</a></td>
+      <td><a href="/player/svrcina-d/">Dalibor Svrcina</a></td>
       <td class="num">1656.3</td>
       <td class="muted">2026-03-04 00:00:00</td>
     </tr>
   
     <tr>
       <td class="num">96</td>
-      <td><a class="row" href="/player/piros-z/">Zsombor Piros</a></td>
+      <td><a href="/player/piros-z/">Zsombor Piros</a></td>
       <td class="num">1655.4</td>
       <td class="muted">2025-09-12 00:00:00</td>
     </tr>
   
     <tr>
       <td class="num">97</td>
-      <td><a class="row" href="/player/goffin-d/">David Goffin</a></td>
+      <td><a href="/player/goffin-d/">David Goffin</a></td>
       <td class="num">1650.1</td>
       <td class="muted">2025-10-20 00:00:00</td>
     </tr>
   
     <tr>
       <td class="num">98</td>
-      <td><a class="row" href="/player/huguesherbert-p/">Pierre Hugues Herbert</a></td>
+      <td><a href="/player/huguesherbert-p/">Pierre Hugues Herbert</a></td>
       <td class="num">1647.7</td>
       <td class="muted">2026-02-16 00:00:00</td>
     </tr>
   
     <tr>
       <td class="num">99</td>
-      <td><a class="row" href="/player/cazaux-a/">Arthur Cazaux</a></td>
+      <td><a href="/player/cazaux-a/">Arthur Cazaux</a></td>
       <td class="num">1643.6</td>
       <td class="muted">2026-03-18 00:00:00</td>
     </tr>
   
     <tr>
       <td class="num">100</td>
-      <td><a class="row" href="/player/basavareddy-n/">Nishesh Basavareddy</a></td>
+      <td><a href="/player/basavareddy-n/">Nishesh Basavareddy</a></td>
       <td class="num">1643.2</td>
       <td class="muted">2026-01-19 00:00:00</td>
     </tr>
   
   </tbody>
 </table>
-<p class="muted">Surface-specific ladders update only on that surface. Click a player for profile + market analysis.</p>
+
+<h2>Explore</h2>
+<div class="cards">
+  <div class="card"><a href="/goat/">🏆 GOAT List</a><div class="muted">all-time greats</div></div>
+  <div class="card"><a href="/stats/">📊 Statistics</a><div class="muted">serve · return · pressure</div></div>
+  <div class="card"><a href="/rankings/atp/">📋 ATP Rankings</a><div class="muted">official points</div></div>
+  <div class="card"><a href="/h2h/">🆚 Head-to-Head</a><div class="muted">compare players</div></div>
+  <div class="card"><a href="/tournaments/">🎾 Tournaments</a><div class="muted">results &amp; champions</div></div>
+  <div class="card"><a href="/players/">👤 Players</a><div class="muted">search profiles</div></div>
+</div>
 </main>
-  <footer class="muted">
-    Surface-aware Elo + market analysis, computed from public match data
-    (Jeff Sackmann) and closing odds (tennis-data.co.uk). Informational only —
-    not betting advice. <a href="/about/">Methodology</a>.
+  <script>
+    // make every table a carded, horizontally-scrollable block (mobile-friendly)
+    document.querySelectorAll('main table').forEach(function(t){
+      if(t.parentElement.classList.contains('table-wrap'))return;
+      var w=document.createElement('div');w.className='table-wrap';
+      t.parentNode.insertBefore(w,t);w.appendChild(t);
+    });
+  </script>
+  <footer>
+    <strong>Tennis Analytics</strong> — surface-aware Elo &amp; market analysis from public
+    match data (Jeff Sackmann) and closing odds (tennis-data.co.uk).
+    Informational only, not betting advice. <a href="/about/">Methodology</a>.
   </footer>
 </body>
 </html>

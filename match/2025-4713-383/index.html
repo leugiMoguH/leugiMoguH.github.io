@@ -3,6 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b6e4f">
   <title>Alexander Bublik def. Yibing Wu — 2025-4713 | Tennis Analytics</title>
   
   <meta name="description" content="Alexander Bublik beat Yibing Wu 6-3 6-3 on Hard. Elo win probability vs betting-market implied odds.">
@@ -16,35 +17,91 @@
   <meta name="robots" content="index, follow, max-image-preview:large">
   <!-- AdSense: paste your script tag here once approved -->
   <style>
-    :root { color-scheme: light dark; }
-    body { font-family: system-ui, sans-serif; margin: 0; line-height: 1.45; }
-    header { background:#0b3d2e; color:#fff; padding:.7rem 1rem; }
-    header a { color:#cfe9dd; text-decoration:none; margin-right:1rem; font-weight:600; }
-    header .brand { color:#fff; font-weight:800; }
-    main { max-width: 980px; margin: 0 auto; padding: 1rem; }
-    table { border-collapse: collapse; width: 100%; margin:.5rem 0 1.5rem; }
-    th, td { text-align:left; padding:.4rem .6rem; border-bottom:1px solid #8883; }
-    th { background:#0b3d2e10; }
-    h1,h2 { margin:.6rem 0; }
-    .num { text-align:right; font-variant-numeric: tabular-nums; }
-    .muted { color:#6b7280; font-size:.9rem; }
-    .pill { background:#0b3d2e15; border-radius:999px; padding:.1rem .5rem; font-size:.85rem; }
-    a.row { text-decoration:none; }
-    footer { max-width:980px; margin:2rem auto; padding:1rem; border-top:1px solid #8883; }
+    :root{
+      --bg:#f6f7f9; --surface:#fff; --text:#10231c; --muted:#5b6b66;
+      --border:#e3e7e5; --accent:#0b6e4f; --accent2:#0f9d6e; --accent-soft:#0b6e4f14;
+      --gold:#caa23a; --radius:14px; --shadow:0 1px 3px #0000000f,0 8px 24px #0000000a;
+      --maxw:1080px;
+    }
+    @media (prefers-color-scheme:dark){
+      :root{--bg:#0d1411;--surface:#121b17;--text:#e8efea;--muted:#9bb0a8;
+            --border:#223029;--accent:#2bbe8c;--accent2:#2bbe8c;--accent-soft:#2bbe8c1f;}
+    }
+    *{box-sizing:border-box}
+    html{-webkit-text-size-adjust:100%}
+    body{margin:0;font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+         background:var(--bg);color:var(--text);line-height:1.5;font-size:15px}
+    a{color:var(--accent2);text-decoration:none}
+    a:hover{text-decoration:underline}
+    /* header / nav */
+    .top{position:sticky;top:0;z-index:20;background:var(--accent);color:#fff;box-shadow:var(--shadow)}
+    .nav{max-width:var(--maxw);margin:0 auto;display:flex;align-items:center;
+         gap:.25rem;padding:.55rem .9rem;flex-wrap:wrap}
+    .brand{color:#fff;font-weight:800;font-size:1.05rem;margin-right:auto;letter-spacing:.2px}
+    .brand:hover{text-decoration:none}
+    .links{display:flex;gap:.15rem;flex-wrap:wrap}
+    .links a{color:#eafff6;font-weight:600;padding:.35rem .6rem;border-radius:999px;font-size:.92rem}
+    .links a:hover{background:#ffffff22;text-decoration:none}
+    details.menu summary{list-style:none;cursor:pointer;color:#fff;font-weight:700;
+         padding:.3rem .55rem;border:1px solid #ffffff55;border-radius:10px}
+    details.menu summary::-webkit-details-marker{display:none}
+    @media (min-width:820px){ details.menu summary{display:none} .links{display:flex!important} }
+    @media (max-width:819px){
+      .nav{align-items:flex-start}
+      .links{display:none;width:100%;flex-direction:column;margin-top:.5rem}
+      details.menu[open] .links{display:flex}
+    }
+    /* layout */
+    main{max-width:var(--maxw);margin:1.1rem auto;padding:0 .9rem}
+    h1{font-size:1.5rem;margin:.2rem 0 .6rem;letter-spacing:-.01em}
+    h2{font-size:1.15rem;margin:1.4rem 0 .5rem}
+    .sub{color:var(--muted);margin:.2rem 0 1rem}
+    /* cards / pills */
+    .pill{display:inline-block;background:var(--accent-soft);color:var(--accent2);
+          border-radius:999px;padding:.12rem .55rem;font-size:.82rem;font-weight:700;margin:.1rem .2rem .1rem 0}
+    .cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:.6rem;margin:1rem 0}
+    .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);
+          padding:.8rem .9rem;box-shadow:var(--shadow)}
+    .card a{font-weight:700}
+    /* tables */
+    .table-wrap{overflow-x:auto;background:var(--surface);border:1px solid var(--border);
+                border-radius:var(--radius);box-shadow:var(--shadow);margin:.6rem 0 1.4rem}
+    table{border-collapse:collapse;width:100%;font-size:.92rem}
+    th,td{text-align:left;padding:.55rem .7rem;border-bottom:1px solid var(--border);white-space:nowrap}
+    thead th{position:sticky;top:0;background:var(--surface);color:var(--muted);
+             font-weight:700;font-size:.78rem;text-transform:uppercase;letter-spacing:.04em}
+    tbody tr:hover{background:var(--accent-soft)}
+    tbody tr:last-child td{border-bottom:0}
+    .num{text-align:right;font-variant-numeric:tabular-nums}
+    .muted{color:var(--muted)}
+    input[type=search],input:not([type]){width:100%;max-width:380px;padding:.6rem .8rem;
+          border:1px solid var(--border);border-radius:10px;background:var(--surface);
+          color:var(--text);font-size:1rem}
+    button{padding:.6rem 1rem;border:0;border-radius:10px;background:var(--accent);
+           color:#fff;font-size:1rem;font-weight:600;cursor:pointer}
+    footer{max-width:var(--maxw);margin:2rem auto 3rem;padding:1.2rem .9rem;
+           border-top:1px solid var(--border);color:var(--muted);font-size:.88rem}
   </style>
 </head>
 <body>
-  <header>
-    <a class="brand" href="/">🎾 Tennis Analytics</a>
-    <a href="/">Elo</a>
-    <a href="/rankings/atp/">ATP</a>
-    <a href="/goat/">GOAT</a>
-    <a href="/stats/">Stats</a>
-    <a href="/records/">Records</a>
-    <a href="/players/">Players</a>
-    <a href="/tournaments/">Tournaments</a>
-    <a href="/matches/">Matches</a>
-    <a href="/h2h/">H2H</a>
+  <header class="top">
+    <nav class="nav">
+      <a class="brand" href="/">🎾 Tennis Analytics</a>
+      <details class="menu">
+        <summary>Menu</summary>
+        <div class="links">
+          <a href="/">Elo</a>
+          <a href="/rankings/atp/">ATP</a>
+          <a href="/goat/">GOAT</a>
+          <a href="/stats/">Stats</a>
+          <a href="/records/">Records</a>
+          <a href="/players/">Players</a>
+          <a href="/tournaments/">Tournaments</a>
+          <a href="/matches/">Matches</a>
+          <a href="/h2h/">H2H</a>
+        </div>
+      </details>
+    </nav>
   </header>
   <main>
 
@@ -80,10 +137,18 @@
   
 
 </main>
-  <footer class="muted">
-    Surface-aware Elo + market analysis, computed from public match data
-    (Jeff Sackmann) and closing odds (tennis-data.co.uk). Informational only —
-    not betting advice. <a href="/about/">Methodology</a>.
+  <script>
+    // make every table a carded, horizontally-scrollable block (mobile-friendly)
+    document.querySelectorAll('main table').forEach(function(t){
+      if(t.parentElement.classList.contains('table-wrap'))return;
+      var w=document.createElement('div');w.className='table-wrap';
+      t.parentNode.insertBefore(w,t);w.appendChild(t);
+    });
+  </script>
+  <footer>
+    <strong>Tennis Analytics</strong> — surface-aware Elo &amp; market analysis from public
+    match data (Jeff Sackmann) and closing odds (tennis-data.co.uk).
+    Informational only, not betting advice. <a href="/about/">Methodology</a>.
   </footer>
 </body>
 </html>
