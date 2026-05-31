@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Head-to-Head — Tennis Analytics</title>
+  
+  <meta name="description" content="Compare two ATP players.">
+  <link rel="canonical" href="https://leugimoguh.github.io/h2h/">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Head-to-Head — Tennis Analytics">
+  <meta property="og:description" content="Compare two ATP players.">
+  <meta name="twitter:card" content="summary">
+  
+  
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <!-- AdSense: paste your script tag here once approved -->
+  <style>
+    :root { color-scheme: light dark; }
+    body { font-family: system-ui, sans-serif; margin: 0; line-height: 1.45; }
+    header { background:#0b3d2e; color:#fff; padding:.7rem 1rem; }
+    header a { color:#cfe9dd; text-decoration:none; margin-right:1rem; font-weight:600; }
+    header .brand { color:#fff; font-weight:800; }
+    main { max-width: 980px; margin: 0 auto; padding: 1rem; }
+    table { border-collapse: collapse; width: 100%; margin:.5rem 0 1.5rem; }
+    th, td { text-align:left; padding:.4rem .6rem; border-bottom:1px solid #8883; }
+    th { background:#0b3d2e10; }
+    h1,h2 { margin:.6rem 0; }
+    .num { text-align:right; font-variant-numeric: tabular-nums; }
+    .muted { color:#6b7280; font-size:.9rem; }
+    .pill { background:#0b3d2e15; border-radius:999px; padding:.1rem .5rem; font-size:.85rem; }
+    a.row { text-decoration:none; }
+    footer { max-width:980px; margin:2rem auto; padding:1rem; border-top:1px solid #8883; }
+  </style>
+</head>
+<body>
+  <header>
+    <a class="brand" href="/">🎾 Tennis Analytics</a>
+    <a href="/">Elo</a>
+    <a href="/rankings/atp/">ATP</a>
+    <a href="/goat/">GOAT</a>
+    <a href="/stats/">Stats</a>
+    <a href="/records/">Records</a>
+    <a href="/players/">Players</a>
+    <a href="/tournaments/">Tournaments</a>
+    <a href="/matches/">Matches</a>
+    <a href="/h2h/">H2H</a>
+  </header>
+  <main>
+<h1>Head-to-Head</h1>
+<p class="muted">Pick two players (top players pre-computed).</p>
+<div style="display:flex;gap:.5rem;flex-wrap:wrap;align-items:center">
+  <input id="a" list="pl" placeholder="Player A" autocomplete="off"
+         style="padding:.5rem;font-size:1rem">
+  <span>vs</span>
+  <input id="b" list="pl" placeholder="Player B" autocomplete="off"
+         style="padding:.5rem;font-size:1rem">
+  <button onclick="go()" style="padding:.5rem .9rem;font-size:1rem">Compare</button>
+</div>
+<datalist id="pl">
+  <option data-norm="sinner j" value="Jannik Sinner"><option data-norm="alcaraz c" value="Carlos Alcaraz"><option data-norm="djokovic n" value="Novak Djokovic"><option data-norm="zverev a" value="Alexander Zverev"><option data-norm="fils a" value="Arthur Fils"><option data-norm="medvedev d" value="Daniil Medvedev"><option data-norm="jodar r" value="Rafael Jodar"><option data-norm="draper j" value="Jack Draper"><option data-norm="deminaur a" value="Alex De Minaur"><option data-norm="musetti l" value="Lorenzo Musetti"><option data-norm="tien l" value="Learner Tien"><option data-norm="paul t" value="Tommy Paul"><option data-norm="ruud c" value="Casper Ruud"><option data-norm="augeraliassime f" value="Felix Auger Aliassime"><option data-norm="fritz t" value="Taylor Fritz"><option data-norm="vacherot v" value="Valentin Vacherot">
+</datalist>
+<p id="msg" class="muted"></p>
+<script>
+const M = { "Jannik Sinner":"sinner j","Carlos Alcaraz":"alcaraz c","Novak Djokovic":"djokovic n","Alexander Zverev":"zverev a","Arthur Fils":"fils a","Daniil Medvedev":"medvedev d","Rafael Jodar":"jodar r","Jack Draper":"draper j","Alex De Minaur":"deminaur a","Lorenzo Musetti":"musetti l","Learner Tien":"tien l","Tommy Paul":"paul t","Casper Ruud":"ruud c","Felix Auger Aliassime":"augeraliassime f","Taylor Fritz":"fritz t","Valentin Vacherot":"vacherot v", };
+function go(){
+  const a=M[document.getElementById('a').value], b=M[document.getElementById('b').value];
+  if(!a||!b){document.getElementById('msg').textContent='Choose two listed players.';return;}
+  const s=[a,b].sort().map(x=>x.replace(/ /g,'-'));
+  location.href=`/h2h/${s[0]}-vs-${s[1]}/`;
+}
+</script>
+</main>
+  <footer class="muted">
+    Surface-aware Elo + market analysis, computed from public match data
+    (Jeff Sackmann) and closing odds (tennis-data.co.uk). Informational only —
+    not betting advice. <a href="/about/">Methodology</a>.
+  </footer>
+</body>
+</html>
