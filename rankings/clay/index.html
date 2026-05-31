@@ -1,0 +1,760 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Clay Elo Rankings — Tennis Analytics</title>
+  
+  <meta name="description" content="Live surface-aware Clay Elo ratings for ATP players, computed from raw match data. Player form, head-to-head, and betting-market analysis.">
+  <link rel="canonical" href="https://leugimoguh.github.io/rankings/clay/">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Clay Elo Rankings — Tennis Analytics">
+  <meta property="og:description" content="Live surface-aware Clay Elo ratings for ATP players, computed from raw match data. Player form, head-to-head, and betting-market analysis.">
+  <meta name="twitter:card" content="summary">
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "ItemList", "name": "Clay Elo Rankings", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Jannik Sinner", "url": "https://leugimoguh.github.io/player/sinner-j/"}, {"@type": "ListItem", "position": 2, "name": "Carlos Alcaraz", "url": "https://leugimoguh.github.io/player/alcaraz-c/"}, {"@type": "ListItem", "position": 3, "name": "Novak Djokovic", "url": "https://leugimoguh.github.io/player/djokovic-n/"}, {"@type": "ListItem", "position": 4, "name": "Alexander Zverev", "url": "https://leugimoguh.github.io/player/zverev-a/"}, {"@type": "ListItem", "position": 5, "name": "Casper Ruud", "url": "https://leugimoguh.github.io/player/ruud-c/"}, {"@type": "ListItem", "position": 6, "name": "Lorenzo Musetti", "url": "https://leugimoguh.github.io/player/musetti-l/"}, {"@type": "ListItem", "position": 7, "name": "Arthur Fils", "url": "https://leugimoguh.github.io/player/fils-a/"}, {"@type": "ListItem", "position": 8, "name": "Rafael Jodar", "url": "https://leugimoguh.github.io/player/jodar-r/"}, {"@type": "ListItem", "position": 9, "name": "Tommy Paul", "url": "https://leugimoguh.github.io/player/paul-t/"}, {"@type": "ListItem", "position": 10, "name": "Alexander Blockx", "url": "https://leugimoguh.github.io/player/blockx-a/"}, {"@type": "ListItem", "position": 11, "name": "Daniil Medvedev", "url": "https://leugimoguh.github.io/player/medvedev-d/"}, {"@type": "ListItem", "position": 12, "name": "Luciano Darderi", "url": "https://leugimoguh.github.io/player/darderi-l/"}, {"@type": "ListItem", "position": 13, "name": "Stefanos Tsitsipas", "url": "https://leugimoguh.github.io/player/tsitsipas-s/"}, {"@type": "ListItem", "position": 14, "name": "Holger Rune", "url": "https://leugimoguh.github.io/player/rune-h/"}, {"@type": "ListItem", "position": 15, "name": "Andrey Rublev", "url": "https://leugimoguh.github.io/player/rublev-a/"}, {"@type": "ListItem", "position": 16, "name": "Alex De Minaur", "url": "https://leugimoguh.github.io/player/deminaur-a/"}, {"@type": "ListItem", "position": 17, "name": "Flavio Cobolli", "url": "https://leugimoguh.github.io/player/cobolli-f/"}, {"@type": "ListItem", "position": 18, "name": "Jiri Lehecka", "url": "https://leugimoguh.github.io/player/lehecka-j/"}, {"@type": "ListItem", "position": 19, "name": "Francisco Cerundolo", "url": "https://leugimoguh.github.io/player/cerundolo-f/"}, {"@type": "ListItem", "position": 20, "name": "Mariano Navone", "url": "https://leugimoguh.github.io/player/navone-m/"}, {"@type": "ListItem", "position": 21, "name": "Jack Draper", "url": "https://leugimoguh.github.io/player/draper-j/"}, {"@type": "ListItem", "position": 22, "name": "Ignacio Buse", "url": "https://leugimoguh.github.io/player/buse-i/"}, {"@type": "ListItem", "position": 23, "name": "Cameron Norrie", "url": "https://leugimoguh.github.io/player/norrie-c/"}, {"@type": "ListItem", "position": 24, "name": "Alex Molcan", "url": "https://leugimoguh.github.io/player/molcan-a/"}, {"@type": "ListItem", "position": 25, "name": "Hubert Hurkacz", "url": "https://leugimoguh.github.io/player/hurkacz-h/"}, {"@type": "ListItem", "position": 26, "name": "Matteo Berrettini", "url": "https://leugimoguh.github.io/player/berrettini-m/"}, {"@type": "ListItem", "position": 27, "name": "Alexander Bublik", "url": "https://leugimoguh.github.io/player/bublik-a/"}, {"@type": "ListItem", "position": 28, "name": "Karen Khachanov", "url": "https://leugimoguh.github.io/player/khachanov-k/"}, {"@type": "ListItem", "position": 29, "name": "Kei Nishikori", "url": "https://leugimoguh.github.io/player/nishikori-k/"}, {"@type": "ListItem", "position": 30, "name": "Tomas Martin Etcheverry", "url": "https://leugimoguh.github.io/player/martinetcheverry-t/"}, {"@type": "ListItem", "position": 31, "name": "Thiago Agustin Tirante", "url": "https://leugimoguh.github.io/player/agustintirante-t/"}, {"@type": "ListItem", "position": 32, "name": "Alexei Popyrin", "url": "https://leugimoguh.github.io/player/popyrin-a/"}, {"@type": "ListItem", "position": 33, "name": "Ben Shelton", "url": "https://leugimoguh.github.io/player/shelton-b/"}, {"@type": "ListItem", "position": 34, "name": "Tomas Machac", "url": "https://leugimoguh.github.io/player/machac-t/"}, {"@type": "ListItem", "position": 35, "name": "Felix Auger Aliassime", "url": "https://leugimoguh.github.io/player/augeraliassime-f/"}, {"@type": "ListItem", "position": 36, "name": "Taylor Fritz", "url": "https://leugimoguh.github.io/player/fritz-t/"}, {"@type": "ListItem", "position": 37, "name": "Learner Tien", "url": "https://leugimoguh.github.io/player/tien-l/"}, {"@type": "ListItem", "position": 38, "name": "Joao Fonseca", "url": "https://leugimoguh.github.io/player/fonseca-j/"}, {"@type": "ListItem", "position": 39, "name": "Alejandro Davidovich Fokina", "url": "https://leugimoguh.github.io/player/davidovichfokina-a/"}, {"@type": "ListItem", "position": 40, "name": "Matteo Arnaldi", "url": "https://leugimoguh.github.io/player/arnaldi-m/"}, {"@type": "ListItem", "position": 41, "name": "Grigor Dimitrov", "url": "https://leugimoguh.github.io/player/dimitrov-g/"}, {"@type": "ListItem", "position": 42, "name": "Jakub Mensik", "url": "https://leugimoguh.github.io/player/mensik-j/"}, {"@type": "ListItem", "position": 43, "name": "Valentin Vacherot", "url": "https://leugimoguh.github.io/player/vacherot-v/"}, {"@type": "ListItem", "position": 44, "name": "Dino Prizmic", "url": "https://leugimoguh.github.io/player/prizmic-d/"}, {"@type": "ListItem", "position": 45, "name": "Frances Tiafoe", "url": "https://leugimoguh.github.io/player/tiafoe-f/"}, {"@type": "ListItem", "position": 46, "name": "Yannick Hanfmann", "url": "https://leugimoguh.github.io/player/hanfmann-y/"}, {"@type": "ListItem", "position": 47, "name": "Vit Kopriva", "url": "https://leugimoguh.github.io/player/kopriva-v/"}, {"@type": "ListItem", "position": 48, "name": "Jan Lennard Struff", "url": "https://leugimoguh.github.io/player/lennardstruff-j/"}, {"@type": "ListItem", "position": 49, "name": "Sebastian Korda", "url": "https://leugimoguh.github.io/player/korda-s/"}, {"@type": "ListItem", "position": 50, "name": "Alejandro Tabilo", "url": "https://leugimoguh.github.io/player/tabilo-a/"}]}</script>
+  
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <!-- AdSense: paste your script tag here once approved -->
+  <style>
+    :root { color-scheme: light dark; }
+    body { font-family: system-ui, sans-serif; margin: 0; line-height: 1.45; }
+    header { background:#0b3d2e; color:#fff; padding:.7rem 1rem; }
+    header a { color:#cfe9dd; text-decoration:none; margin-right:1rem; font-weight:600; }
+    header .brand { color:#fff; font-weight:800; }
+    main { max-width: 980px; margin: 0 auto; padding: 1rem; }
+    table { border-collapse: collapse; width: 100%; margin:.5rem 0 1.5rem; }
+    th, td { text-align:left; padding:.4rem .6rem; border-bottom:1px solid #8883; }
+    th { background:#0b3d2e10; }
+    h1,h2 { margin:.6rem 0; }
+    .num { text-align:right; font-variant-numeric: tabular-nums; }
+    .muted { color:#6b7280; font-size:.9rem; }
+    .pill { background:#0b3d2e15; border-radius:999px; padding:.1rem .5rem; font-size:.85rem; }
+    a.row { text-decoration:none; }
+    footer { max-width:980px; margin:2rem auto; padding:1rem; border-top:1px solid #8883; }
+  </style>
+</head>
+<body>
+  <header>
+    <a class="brand" href="/">🎾 Tennis Analytics</a>
+    <a href="/">Rankings</a>
+    <a href="/rankings/clay/">Clay</a>
+    <a href="/rankings/hard/">Hard</a>
+    <a href="/rankings/grass/">Grass</a>
+  </header>
+  <main>
+<h1>Elo Rankings <span class="pill">Clay</span></h1>
+<table>
+  <thead><tr><th>#</th><th>Player</th><th class="num">Elo</th><th>As of</th></tr></thead>
+  <tbody>
+  
+    <tr>
+      <td class="num">1</td>
+      <td><a class="row" href="/player/sinner-j/">Jannik Sinner</a></td>
+      <td class="num">2207.4</td>
+      <td class="muted">2026-05-06 00:00:00</td>
+    </tr>
+  
+    <tr>
+      <td class="num">2</td>
+      <td><a class="row" href="/player/alcaraz-c/">Carlos Alcaraz</a></td>
+      <td class="num">2187.9</td>
+      <td class="muted">2026-04-13 00:00:00</td>
+    </tr>
+  
+    <tr>
+      <td class="num">3</td>
+      <td><a class="row" href="/player/djokovic-n/">Novak Djokovic</a></td>
+      <td class="num">2088.8</td>
+      <td class="muted">2026-05-06 00:00:00</td>
+    </tr>
+  
+    <tr>
+      <td class="num">4</td>
+      <td><a class="row" href="/player/zverev-a/">Alexander Zverev</a></td>
+      <td class="num">2018.0</td>
+      <td class="muted">2026-05-06 00:00:00</td>
+    </tr>
+  
+    <tr>
+      <td class="num">5</td>
+      <td><a class="row" href="/player/ruud-c/">Casper Ruud</a></td>
+      <td class="num">2003.1</td>
+      <td class="muted">2026-05-17 00:00:00</td>
+    </tr>
+  
+    <tr>
+      <td class="num">6</td>
+      <td><a class="row" href="/player/musetti-l/">Lorenzo Musetti</a></td>
+      <td class="num">1980.6</td>
+      <td class="muted">2026-05-06 00:00:00</td>
+    </tr>
+  
+    <tr>
+      <td class="num">7</td>
+      <td><a class="row" href="/player/fils-a/">Arthur Fils</a></td>
+      <td class="num">1965.4</td>
+      <td class="muted">2026-05-06 00:00:00</td>
+    </tr>
+  
+    <tr>
+      <td class="num">8</td>
+      <td><a class="row" href="/player/jodar-r/">Rafael Jodar</a></td>
+      <td class="num">1954.6</td>
+      <td class="muted">2026-05-06 00:00:00</td>
+    </tr>
+  
+    <tr>
+      <td class="num">9</td>
+      <td><a class="row" href="/player/paul-t/">Tommy Paul</a></td>
+      <td class="num">1927.6</td>
+      <td class="muted">2026-05-17 00:00:00</td>
+    </tr>
+  
+    <tr>
+      <td class="num">10</td>
+      <td><a class="row" href="/player/blockx-a/">Alexander Blockx</a></td>
+      <td class="num">1906.1</td>
+      <td class="muted">2026-05-06 00:00:00</td>
+    </tr>
+  
+    <tr>
+      <td class="num">11</td>
+      <td><a class="row" href="/player/medvedev-d/">Daniil Medvedev</a></td>
+      <td class="num">1902.4</td>
+      <td class="muted">2026-05-06 00:00:00</td>
+    </tr>
+  
+    <tr>
+      <td class="num">12</td>
+      <td><a class="row" href="/player/darderi-l/">Luciano Darderi</a></td>
+      <td class="num">1901.9</td>
+      <td class="muted">2026-05-17 00:00:00</td>
+    </tr>
+  
+    <tr>
+      <td class="num">13</td>
+      <td><a class="row" href="/player/tsitsipas-s/">Stefanos Tsitsipas</a></td>
+      <td class="num">1883.6</td>
+      <td class="muted">2026-05-17 00:00:00</td>
+    </tr>
+  
+    <tr>
+      <td class="num">14</td>
+      <td><a class="row" href="/player/rune-h/">Holger Rune</a></td>
+      <td class="num">1878.1</td>
+      <td class="muted">2025-09-13 00:00:00</td>
+    </tr>
+  
+    <tr>
+      <td class="num">15</td>
+      <td><a class="row" href="/player/rublev-a/">Andrey Rublev</a></td>
+      <td class="num">1866.5</td>
+      <td class="muted">2026-05-06 00:00:00</td>
+    </tr>
+  
+    <tr>
+      <td class="num">16</td>
+      <td><a class="row" href="/player/deminaur-a/">Alex De Minaur</a></td>
+      <td class="num">1862.4</td>
+      <td class="muted">2026-05-17 00:00:00</td>
+    </tr>
+  
+    <tr>
+      <td class="num">17</td>
+      <td><a class="row" href="/player/cobolli-f/">Flavio Cobolli</a></td>
+      <td class="num">1851.5</td>
+      <td class="muted">2026-05-17 00:00:00</td>
+    </tr>
+  
+    <tr>
+      <td class="num">18</td>
+      <td><a class="row" href="/player/lehecka-j/">Jiri Lehecka</a></td>
+      <td class="num">1843.1</td>
+      <td class="muted">2026-05-06 00:00:00</td>
+    </tr>
+  
+    <tr>
+      <td class="num">19</td>
+      <td><a class="row" href="/player/cerundolo-f/">Francisco Cerundolo</a></td>
+      <td class="num">1842.3</td>
+      <td class="muted">2026-05-17 00:00:00</td>
+    </tr>
+  
+    <tr>
+      <td class="num">20</td>
+      <td><a class="row" href="/player/navone-m/">Mariano Navone</a></td>
+      <td class="num">1841.7</td>
+      <td class="muted">2026-05-17 00:00:00</td>
+    </tr>
+  
+    <tr>
+      <td class="num">21</td>
+      <td><a class="row" href="/player/draper-j/">Jack Draper</a></td>
+      <td class="num">1841.4</td>
+      <td class="muted">2026-04-13 00:00:00</td>
+    </tr>
+  
+    <tr>
+      <td class="num">22</td>
+      <td><a class="row" href="/player/buse-i/">Ignacio Buse</a></td>
+      <td class="num">1829.7</td>
+      <td class="muted">2026-05-17 00:00:00</td>
+    </tr>
+  
+    <tr>
+      <td class="num">23</td>
+      <td><a class="row" href="/player/norrie-c/">Cameron Norrie</a></td>
+      <td class="num">1821.2</td>
+      <td class="muted">2026-05-17 00:00:00</td>
+    </tr>
+  
+    <tr>
+      <td class="num">24</td>
+      <td><a class="row" href="/player/molcan-a/">Alex Molcan</a></td>
+      <td class="num">1817.5</td>
+      <td class="muted">2026-04-13 00:00:00</td>
+    </tr>
+  
+    <tr>
+      <td class="num">25</td>
+      <td><a class="row" href="/player/hurkacz-h/">Hubert Hurkacz</a></td>
+      <td class="num">1814.5</td>
+      <td class="muted">2026-05-06 00:00:00</td>
+    </tr>
+  
+    <tr>
+      <td class="num">26</td>
+      <td><a class="row" href="/player/berrettini-m/">Matteo Berrettini</a></td>
+      <td class="num">1806.6</td>
+      <td class="muted">2026-05-06 00:00:00</td>
+    </tr>
+  
+    <tr>
+      <td class="num">27</td>
+      <td><a class="row" href="/player/bublik-a/">Alexander Bublik</a></td>
+      <td class="num">1806.4</td>
+      <td class="muted">2026-05-17 00:00:00</td>
+    </tr>
+  
+    <tr>
+      <td class="num">28</td>
+      <td><a class="row" href="/player/khachanov-k/">Karen Khachanov</a></td>
+      <td class="num">1798.1</td>
+      <td class="muted">2026-05-17 00:00:00</td>
+    </tr>
+  
+    <tr>
+      <td class="num">29</td>
+      <td><a class="row" href="/player/nishikori-k/">Kei Nishikori</a></td>
+      <td class="num">1792.3</td>
+      <td class="muted">2025-05-18 00:00:00</td>
+    </tr>
+  
+    <tr>
+      <td class="num">30</td>
+      <td><a class="row" href="/player/martinetcheverry-t/">Tomas Martin Etcheverry</a></td>
+      <td class="num">1788.5</td>
+      <td class="muted">2026-05-17 00:00:00</td>
+    </tr>
+  
+    <tr>
+      <td class="num">31</td>
+      <td><a class="row" href="/player/agustintirante-t/">Thiago Agustin Tirante</a></td>
+      <td class="num">1788.3</td>
+      <td class="muted">2026-05-17 00:00:00</td>
+    </tr>
+  
+    <tr>
+      <td class="num">32</td>
+      <td><a class="row" href="/player/popyrin-a/">Alexei Popyrin</a></td>
+      <td class="num">1783.2</td>
+      <td class="muted">2026-05-17 00:00:00</td>
+    </tr>
+  
+    <tr>
+      <td class="num">33</td>
+      <td><a class="row" href="/player/shelton-b/">Ben Shelton</a></td>
+      <td class="num">1778.1</td>
+      <td class="muted">2026-05-17 00:00:00</td>
+    </tr>
+  
+    <tr>
+      <td class="num">34</td>
+      <td><a class="row" href="/player/machac-t/">Tomas Machac</a></td>
+      <td class="num">1773.3</td>
+      <td class="muted">2026-05-06 00:00:00</td>
+    </tr>
+  
+    <tr>
+      <td class="num">35</td>
+      <td><a class="row" href="/player/augeraliassime-f/">Felix Auger Aliassime</a></td>
+      <td class="num">1770.1</td>
+      <td class="muted">2026-05-17 00:00:00</td>
+    </tr>
+  
+    <tr>
+      <td class="num">36</td>
+      <td><a class="row" href="/player/fritz-t/">Taylor Fritz</a></td>
+      <td class="num">1768.9</td>
+      <td class="muted">2026-05-17 00:00:00</td>
+    </tr>
+  
+    <tr>
+      <td class="num">37</td>
+      <td><a class="row" href="/player/tien-l/">Learner Tien</a></td>
+      <td class="num">1767.6</td>
+      <td class="muted">2026-05-17 00:00:00</td>
+    </tr>
+  
+    <tr>
+      <td class="num">38</td>
+      <td><a class="row" href="/player/fonseca-j/">Joao Fonseca</a></td>
+      <td class="num">1766.7</td>
+      <td class="muted">2026-05-06 00:00:00</td>
+    </tr>
+  
+    <tr>
+      <td class="num">39</td>
+      <td><a class="row" href="/player/davidovichfokina-a/">Alejandro Davidovich Fokina</a></td>
+      <td class="num">1763.3</td>
+      <td class="muted">2026-05-17 00:00:00</td>
+    </tr>
+  
+    <tr>
+      <td class="num">40</td>
+      <td><a class="row" href="/player/arnaldi-m/">Matteo Arnaldi</a></td>
+      <td class="num">1754.1</td>
+      <td class="muted">2026-05-06 00:00:00</td>
+    </tr>
+  
+    <tr>
+      <td class="num">41</td>
+      <td><a class="row" href="/player/dimitrov-g/">Grigor Dimitrov</a></td>
+      <td class="num">1751.1</td>
+      <td class="muted">2026-04-22 00:00:00</td>
+    </tr>
+  
+    <tr>
+      <td class="num">42</td>
+      <td><a class="row" href="/player/mensik-j/">Jakub Mensik</a></td>
+      <td class="num">1745.8</td>
+      <td class="muted">2026-05-17 00:00:00</td>
+    </tr>
+  
+    <tr>
+      <td class="num">43</td>
+      <td><a class="row" href="/player/vacherot-v/">Valentin Vacherot</a></td>
+      <td class="num">1745.3</td>
+      <td class="muted">2026-04-22 00:00:00</td>
+    </tr>
+  
+    <tr>
+      <td class="num">44</td>
+      <td><a class="row" href="/player/prizmic-d/">Dino Prizmic</a></td>
+      <td class="num">1744.8</td>
+      <td class="muted">2026-05-06 00:00:00</td>
+    </tr>
+  
+    <tr>
+      <td class="num">45</td>
+      <td><a class="row" href="/player/tiafoe-f/">Frances Tiafoe</a></td>
+      <td class="num">1738.4</td>
+      <td class="muted">2026-05-17 00:00:00</td>
+    </tr>
+  
+    <tr>
+      <td class="num">46</td>
+      <td><a class="row" href="/player/hanfmann-y/">Yannick Hanfmann</a></td>
+      <td class="num">1738.3</td>
+      <td class="muted">2026-05-17 00:00:00</td>
+    </tr>
+  
+    <tr>
+      <td class="num">47</td>
+      <td><a class="row" href="/player/kopriva-v/">Vit Kopriva</a></td>
+      <td class="num">1734.2</td>
+      <td class="muted">2026-05-17 00:00:00</td>
+    </tr>
+  
+    <tr>
+      <td class="num">48</td>
+      <td><a class="row" href="/player/lennardstruff-j/">Jan Lennard Struff</a></td>
+      <td class="num">1723.6</td>
+      <td class="muted">2026-05-17 00:00:00</td>
+    </tr>
+  
+    <tr>
+      <td class="num">49</td>
+      <td><a class="row" href="/player/korda-s/">Sebastian Korda</a></td>
+      <td class="num">1721.7</td>
+      <td class="muted">2025-05-26 00:00:00</td>
+    </tr>
+  
+    <tr>
+      <td class="num">50</td>
+      <td><a class="row" href="/player/tabilo-a/">Alejandro Tabilo</a></td>
+      <td class="num">1721.6</td>
+      <td class="muted">2026-05-06 00:00:00</td>
+    </tr>
+  
+    <tr>
+      <td class="num">51</td>
+      <td><a class="row" href="/player/carrenobusta-p/">Pablo Carreno Busta</a></td>
+      <td class="num">1721.6</td>
+      <td class="muted">2026-05-06 00:00:00</td>
+    </tr>
+  
+    <tr>
+      <td class="num">52</td>
+      <td><a class="row" href="/player/djere-l/">Laslo Djere</a></td>
+      <td class="num">1720.3</td>
+      <td class="muted">2026-05-17 00:00:00</td>
+    </tr>
+  
+    <tr>
+      <td class="num">53</td>
+      <td><a class="row" href="/player/misolic-f/">Filip Misolic</a></td>
+      <td class="num">1713.8</td>
+      <td class="muted">2025-07-21 00:00:00</td>
+    </tr>
+  
+    <tr>
+      <td class="num">54</td>
+      <td><a class="row" href="/player/rinderknech-a/">Arthur Rinderknech</a></td>
+      <td class="num">1712.4</td>
+      <td class="muted">2026-05-17 00:00:00</td>
+    </tr>
+  
+    <tr>
+      <td class="num">55</td>
+      <td><a class="row" href="/player/medjedovic-h/">Hamad Medjedovic</a></td>
+      <td class="num">1706.1</td>
+      <td class="muted">2026-05-06 00:00:00</td>
+    </tr>
+  
+    <tr>
+      <td class="num">56</td>
+      <td><a class="row" href="/player/ugocarabelli-c/">Camilo Ugo Carabelli</a></td>
+      <td class="num">1702.3</td>
+      <td class="muted">2026-05-17 00:00:00</td>
+    </tr>
+  
+    <tr>
+      <td class="num">57</td>
+      <td><a class="row" href="/player/vandezandschulp-b/">Botic Van De Zandschulp</a></td>
+      <td class="num">1695.1</td>
+      <td class="muted">2026-05-06 00:00:00</td>
+    </tr>
+  
+    <tr>
+      <td class="num">58</td>
+      <td><a class="row" href="/player/cazaux-a/">Arthur Cazaux</a></td>
+      <td class="num">1688.6</td>
+      <td class="muted">2025-07-21 00:00:00</td>
+    </tr>
+  
+    <tr>
+      <td class="num">59</td>
+      <td><a class="row" href="/player/marozsan-f/">Fabian Marozsan</a></td>
+      <td class="num">1688.1</td>
+      <td class="muted">2026-05-06 00:00:00</td>
+    </tr>
+  
+    <tr>
+      <td class="num">60</td>
+      <td><a class="row" href="/player/ofner-s/">Sebastian Ofner</a></td>
+      <td class="num">1682.1</td>
+      <td class="muted">2026-05-06 00:00:00</td>
+    </tr>
+  
+    <tr>
+      <td class="num">61</td>
+      <td><a class="row" href="/player/cilic-m/">Marin Cilic</a></td>
+      <td class="num">1679.0</td>
+      <td class="muted">2026-05-06 00:00:00</td>
+    </tr>
+  
+    <tr>
+      <td class="num">62</td>
+      <td><a class="row" href="/player/griekspoor-t/">Tallon Griekspoor</a></td>
+      <td class="num">1676.3</td>
+      <td class="muted">2026-05-06 00:00:00</td>
+    </tr>
+  
+    <tr>
+      <td class="num">63</td>
+      <td><a class="row" href="/player/skatov-t/">Timofey Skatov</a></td>
+      <td class="num">1675.1</td>
+      <td class="muted">2026-03-30 00:00:00</td>
+    </tr>
+  
+    <tr>
+      <td class="num">64</td>
+      <td><a class="row" href="/player/baez-s/">Sebastian Baez</a></td>
+      <td class="num">1668.9</td>
+      <td class="muted">2026-05-17 00:00:00</td>
+    </tr>
+  
+    <tr>
+      <td class="num">65</td>
+      <td><a class="row" href="/player/fucsovics-m/">Marton Fucsovics</a></td>
+      <td class="num">1666.3</td>
+      <td class="muted">2026-05-06 00:00:00</td>
+    </tr>
+  
+    <tr>
+      <td class="num">66</td>
+      <td><a class="row" href="/player/goffin-d/">David Goffin</a></td>
+      <td class="num">1666.1</td>
+      <td class="muted">2025-07-14 00:00:00</td>
+    </tr>
+  
+    <tr>
+      <td class="num">67</td>
+      <td><a class="row" href="/player/fearnley-j/">Jacob Fearnley</a></td>
+      <td class="num">1665.5</td>
+      <td class="muted">2026-05-06 00:00:00</td>
+    </tr>
+  
+    <tr>
+      <td class="num">68</td>
+      <td><a class="row" href="/player/nava-e/">Emilio Nava</a></td>
+      <td class="num">1665.5</td>
+      <td class="muted">2026-04-22 00:00:00</td>
+    </tr>
+  
+    <tr>
+      <td class="num">69</td>
+      <td><a class="row" href="/player/garin-c/">Cristian Garin</a></td>
+      <td class="num">1657.0</td>
+      <td class="muted">2026-05-06 00:00:00</td>
+    </tr>
+  
+    <tr>
+      <td class="num">70</td>
+      <td><a class="row" href="/player/muller-a/">Alexandre Muller</a></td>
+      <td class="num">1655.6</td>
+      <td class="muted">2026-05-06 00:00:00</td>
+    </tr>
+  
+    <tr>
+      <td class="num">71</td>
+      <td><a class="row" href="/player/dejong-j/">Jesper De Jong</a></td>
+      <td class="num">1654.5</td>
+      <td class="muted">2026-05-06 00:00:00</td>
+    </tr>
+  
+    <tr>
+      <td class="num">72</td>
+      <td><a class="row" href="/player//">Zhizhen Zhang</a></td>
+      <td class="num">1651.7</td>
+      <td class="muted">2026-05-06 00:00:00</td>
+    </tr>
+  
+    <tr>
+      <td class="num">73</td>
+      <td><a class="row" href="/player/gaubas-v/">Vilius Gaubas</a></td>
+      <td class="num">1651.6</td>
+      <td class="muted">2026-04-22 00:00:00</td>
+    </tr>
+  
+    <tr>
+      <td class="num">74</td>
+      <td><a class="row" href="/player/moutet-c/">Corentin Moutet</a></td>
+      <td class="num">1650.9</td>
+      <td class="muted">2026-05-17 00:00:00</td>
+    </tr>
+  
+    <tr>
+      <td class="num">75</td>
+      <td><a class="row" href="/player/altmaier-d/">Daniel Altmaier</a></td>
+      <td class="num">1649.1</td>
+      <td class="muted">2026-05-17 00:00:00</td>
+    </tr>
+  
+    <tr>
+      <td class="num">76</td>
+      <td><a class="row" href="/player/borges-n/">Nuno Borges</a></td>
+      <td class="num">1647.0</td>
+      <td class="muted">2026-05-06 00:00:00</td>
+    </tr>
+  
+    <tr>
+      <td class="num">77</td>
+      <td><a class="row" href="/player/halys-q/">Quentin Halys</a></td>
+      <td class="num">1640.5</td>
+      <td class="muted">2026-03-30 00:00:00</td>
+    </tr>
+  
+    <tr>
+      <td class="num">78</td>
+      <td><a class="row" href="/player/munar-j/">Jaume Munar</a></td>
+      <td class="num">1635.0</td>
+      <td class="muted">2026-05-17 00:00:00</td>
+    </tr>
+  
+    <tr>
+      <td class="num">79</td>
+      <td><a class="row" href="/player/bautistaagut-r/">Roberto Bautista Agut</a></td>
+      <td class="num">1632.5</td>
+      <td class="muted">2026-05-06 00:00:00</td>
+    </tr>
+  
+    <tr>
+      <td class="num">80</td>
+      <td><a class="row" href="/player/taberner-c/">Carlos Taberner</a></td>
+      <td class="num">1632.3</td>
+      <td class="muted">2025-07-20 00:00:00</td>
+    </tr>
+  
+    <tr>
+      <td class="num">81</td>
+      <td><a class="row" href="/player/monfils-g/">Gael Monfils</a></td>
+      <td class="num">1631.5</td>
+      <td class="muted">2026-04-22 00:00:00</td>
+    </tr>
+  
+    <tr>
+      <td class="num">82</td>
+      <td><a class="row" href="/player/moller-e/">Elmer Moller</a></td>
+      <td class="num">1630.7</td>
+      <td class="muted">2026-04-22 00:00:00</td>
+    </tr>
+  
+    <tr>
+      <td class="num">83</td>
+      <td><a class="row" href="/player/shapovalov-d/">Denis Shapovalov</a></td>
+      <td class="num">1630.2</td>
+      <td class="muted">2026-05-06 00:00:00</td>
+    </tr>
+  
+    <tr>
+      <td class="num">84</td>
+      <td><a class="row" href="/player/ramos-a/">Albert Ramos</a></td>
+      <td class="num">1627.5</td>
+      <td class="muted">2025-05-26 00:00:00</td>
+    </tr>
+  
+    <tr>
+      <td class="num">85</td>
+      <td><a class="row" href="/player/mejia-n/">Nicolas Mejia</a></td>
+      <td class="num">1626.8</td>
+      <td class="muted">2026-02-07 00:00:00</td>
+    </tr>
+  
+    <tr>
+      <td class="num">86</td>
+      <td><a class="row" href="/player/wawrinka-s/">Stan Wawrinka</a></td>
+      <td class="num">1624.9</td>
+      <td class="muted">2026-05-17 00:00:00</td>
+    </tr>
+  
+    <tr>
+      <td class="num">87</td>
+      <td><a class="row" href="/player/andresburruchaga-r/">Roman Andres Burruchaga</a></td>
+      <td class="num">1623.4</td>
+      <td class="muted">2026-05-17 00:00:00</td>
+    </tr>
+  
+    <tr>
+      <td class="num">88</td>
+      <td><a class="row" href="/player/kubler-j/">Jason Kubler</a></td>
+      <td class="num">1621.0</td>
+      <td class="muted">2026-02-07 00:00:00</td>
+    </tr>
+  
+    <tr>
+      <td class="num">89</td>
+      <td><a class="row" href="/player/carballesbaena-r/">Roberto Carballes Baena</a></td>
+      <td class="num">1620.9</td>
+      <td class="muted">2025-07-20 00:00:00</td>
+    </tr>
+  
+    <tr>
+      <td class="num">90</td>
+      <td><a class="row" href="/player/dzumhur-d/">Damir Dzumhur</a></td>
+      <td class="num">1619.0</td>
+      <td class="muted">2026-05-06 00:00:00</td>
+    </tr>
+  
+    <tr>
+      <td class="num">91</td>
+      <td><a class="row" href="/player/diallo-g/">Gabriel Diallo</a></td>
+      <td class="num">1615.3</td>
+      <td class="muted">2026-04-22 00:00:00</td>
+    </tr>
+  
+    <tr>
+      <td class="num">92</td>
+      <td><a class="row" href="/player/nakashima-b/">Brandon Nakashima</a></td>
+      <td class="num">1615.2</td>
+      <td class="muted">2026-05-06 00:00:00</td>
+    </tr>
+  
+    <tr>
+      <td class="num">93</td>
+      <td><a class="row" href="/player/monteiro-t/">Thiago Monteiro</a></td>
+      <td class="num">1614.9</td>
+      <td class="muted">2026-02-16 00:00:00</td>
+    </tr>
+  
+    <tr>
+      <td class="num">94</td>
+      <td><a class="row" href="/player/shevchenko-a/">Alexander Shevchenko</a></td>
+      <td class="num">1612.8</td>
+      <td class="muted">2026-05-06 00:00:00</td>
+    </tr>
+  
+    <tr>
+      <td class="num">95</td>
+      <td><a class="row" href="/player/atmane-t/">Terence Atmane</a></td>
+      <td class="num">1610.0</td>
+      <td class="muted">2026-05-17 00:00:00</td>
+    </tr>
+  
+    <tr>
+      <td class="num">96</td>
+      <td><a class="row" href="/player/coria-f/">Federico Coria</a></td>
+      <td class="num">1609.9</td>
+      <td class="muted">2026-02-09 00:00:00</td>
+    </tr>
+  
+    <tr>
+      <td class="num">97</td>
+      <td><a class="row" href="/player/seybothwild-t/">Thiago Seyboth Wild</a></td>
+      <td class="num">1607.4</td>
+      <td class="muted">2026-02-09 00:00:00</td>
+    </tr>
+  
+    <tr>
+      <td class="num">98</td>
+      <td><a class="row" href="/player/vanassche-l/">Luca Van Assche</a></td>
+      <td class="num">1606.8</td>
+      <td class="muted">2026-03-30 00:00:00</td>
+    </tr>
+  
+    <tr>
+      <td class="num">99</td>
+      <td><a class="row" href="/player/hassan-b/">Benjamin Hassan</a></td>
+      <td class="num">1603.4</td>
+      <td class="muted">2025-09-12 00:00:00</td>
+    </tr>
+  
+    <tr>
+      <td class="num">100</td>
+      <td><a class="row" href="/player/basilashvili-n/">Nikoloz Basilashvili</a></td>
+      <td class="num">1602.4</td>
+      <td class="muted">2026-05-06 00:00:00</td>
+    </tr>
+  
+  </tbody>
+</table>
+<p class="muted">Surface-specific ladders update only on that surface. Click a player for profile + market analysis.</p>
+</main>
+  <footer class="muted">
+    Surface-aware Elo + market analysis, computed from public match data
+    (Jeff Sackmann) and closing odds (tennis-data.co.uk). Informational only —
+    not betting advice. <a href="/about/">Methodology</a>.
+  </footer>
+</body>
+</html>

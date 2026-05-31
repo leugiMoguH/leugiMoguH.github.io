@@ -1,0 +1,20 @@
+# Tennis Analytics
+
+> Surface-aware Elo ratings and betting-market analysis for ATP men's tennis,
+> computed deterministically from public raw data. Not betting advice.
+
+## What this site provides
+- ATP Elo rankings (overall + clay/hard/grass), 195 ranked players.
+- Player pages: career/seasonal stats, surface splits, form, pressure (break
+  points, tiebreaks, deciding sets), and market mispricing metrics.
+- Match pages: Elo win probability vs betting-market implied odds (5976 recent).
+
+## Data lineage
+- Matches/rankings: Jeff Sackmann tennis_atp (public).
+- Closing odds: tennis-data.co.uk (Pinnacle, Bet365, market max).
+- Methodology + formulas: https://leugimoguh.github.io/about/
+
+## Key pages
+- Rankings: https://leugimoguh.github.io/
+- Clay: https://leugimoguh.github.io/rankings/clay/
+- Sitemap: https://leugimoguh.github.io/sitemap.xml
